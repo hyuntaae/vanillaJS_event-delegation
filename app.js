@@ -19,10 +19,13 @@
 
 */
 
+// ****** 🕹 1차 기능 구현 🕹 ******
+
 const list = document.querySelector('.list');
 const tabBtn = document.querySelectorAll('.tab-btn');
 const tabContent = document.querySelectorAll('.tab-content');
 
+/*
 list.addEventListener('click', function(e){
   if(e.target == tabBtn[0]) {
     for(let x = 0; x < 3; x++) {
@@ -47,3 +50,54 @@ list.addEventListener('click', function(e){
       tabContent[2].classList.add('show')
   }
 })
+*/
+
+// ****** 🕹 2차 코드 재정비 및 간략화 🕹 ******
+
+// tab이 열리는 기능 (모든 클래스 초기화 후 해당 버튼에 클래스 부착) 함수화
+
+function openTab(i) {
+  for(let x = 0; x < tabCount; x++) {
+    tabBtn[x].classList.remove('active')
+    tabContent[x].classList.remove('show')
+  }
+    tabBtn[i].classList.add('active')
+    tabContent[i].classList.add('show')
+}
+
+// 현재 이벤트가 발생한 곳의 버튼 번호를 찾아서 탭을 여는 방식으로 코드가 반복하고 있음.
+// 따라서 버튼 번호를 변수로 활용해 반복문으로 코드를 줄일 수 있음.
+
+/*
+list.addEventListener('click', function(e){
+  for (let i = 0; i < 3; i++) {
+    if(e.target == tabBtn[i]) {
+      openTab(i);
+    }
+  }
+})
+*/
+
+
+/*
+
+****** 🕹 코드 확장성 고려 🕹 ******
+
+- 현재 클릭 이벤트가 발생한 버튼의 번호를 찾아서 그에 맞게 탭 기능이 열리도록 코드 제작
+- 그런데 탭의 개수가 늘어난다면 지금은 3번만 반복하고 있으므로 다음 탭은 작동하지 않을거임
+- 그럼 반복되는 횟수를 3으로 지정하지 않고 탭의 개수를 찾아서 그 개수에 맞게 반복하라고 코드 짜면 될듯
+- 여기서 핵심은 탭의 갯수가 몇개인지 알아내는 것
+- 클래스를 모두 찾아주는 셀렉터 getElementsByClassName 뒤에 .length를 붙이면 갯수를 세어줍니다.
+
+*/ 
+
+let tabCount = document.getElementsByClassName('tab-btn').length;
+
+list.addEventListener('click', function(e){
+  for (let i = 0; i < tabCount; i++) {
+    if(e.target == tabBtn[i]) {
+      openTab(i);
+    }
+  }
+})
+
